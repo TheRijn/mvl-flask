@@ -1,0 +1,50 @@
+/*
+ * Start of Custom CSS
+ */
+
+$margin: 20px;
+$half-margin: $margin / 2;
+
+
+// Overlay is hidden
+.card-img-overlay {
+  opacity: 0;
+}
+
+// Overlay isn't hidden on
+.card:hover {
+  .card-img-overlay {
+    opacity: 1;
+  }
+}
+
+
+.card {
+  margin: $half-margin;
+
+  .card-img-overlay {
+    padding: 0;
+
+    .card-title-bg {
+      height: 25%;
+      opacity: 0.8;
+
+      .card-text {
+        opacity: 1;
+      }
+    }
+  }
+}
+
+body {
+  padding-top: 4.5rem;
+}
+
+nav {
+  margin-bottom: $half-margin;
+}
+
+footer {
+  margin-top: $half-margin;
+  margin-bottom: $margin;
+}
