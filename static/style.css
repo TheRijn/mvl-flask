@@ -1,0 +1,27 @@
+/*
+ * Start of Custom CSS
+ */
+.card-img-overlay {
+  opacity: 0; }
+
+.card:hover .card-img-overlay {
+  opacity: 1; }
+
+.card {
+  margin: 10px; }
+  .card .card-img-overlay {
+    padding: 0; }
+    .card .card-img-overlay .card-title-bg {
+      height: 25%;
+      opacity: 0.8; }
+      .card .card-img-overlay .card-title-bg .card-text {
+        opacity: 1; }
+
+body {
+  padding-top: 4.5rem; }
+
+footer {
+  margin-top: 10px;
+  margin-bottom: 20px; }
+
+/*# sourceMappingURL=style.css.map */
