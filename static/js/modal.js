@@ -8,7 +8,7 @@ $('#detailModal').on('show.bs.modal', function (event) {
         console.log(post);
 
         $('#details-title').text(post.title);
-        $('#details-intro').text(post.intro);
+        $('#details-intro').html(post.intro);
         $('#details-description').text(post.description);
 
         // $('#details-images').text('');
