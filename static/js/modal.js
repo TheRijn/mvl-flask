@@ -9,7 +9,7 @@ $('#detailModal').on('show.bs.modal', function (event) {
 
         $('#details-title').text(post.title);
         $('#details-intro').html(post.intro);
-        $('#details-description').text(post.description);
+        $('#details-description').html(post.description);
 
         // $('#details-images').text('');
         // post.images.forEach(image => {
