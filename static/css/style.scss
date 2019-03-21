@@ -27,7 +27,7 @@ $half-margin: $margin / 2;
   }
 }
 
-
+// Card
 .card {
   margin: $half-margin;
 
@@ -42,6 +42,14 @@ $half-margin: $margin / 2;
         opacity: 1;
       }
     }
+  }
+}
+
+// Modal
+
+.modal-body {
+  img {
+    margin: 10px;
   }
 }
 
