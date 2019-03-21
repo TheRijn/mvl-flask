@@ -2,43 +2,20 @@
      aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title text-center" id="details-title">Modal title</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
+{#            <div class="modal-header">#}
+{#                <h5 class="modal-title text-center" id="details-title">Modal title</h5>#}
+{#                <button type="button" class="close" data-dismiss="modal" aria-label="Close">#}
+{#                    <span aria-hidden="true">&times;</span>#}
+{#                </button>#}
+{#            </div>#}
             <div class="modal-body">
-                <div id="details-intro" class="font-weight-bold"></div>
-                <div id="details-images"></div>
+                <h5 id="details-title" class="text-center"></h5>
+                <div id="details-intro" class="font-weight-bold text-center"></div>
+{#                <div id="details-images"></div>#}
                 <div id="details-description"></div>
             </div>
         </div>
     </div>
 </div>
 
-<script>
-    $('#detailModal').on('show.bs.modal', function (event) {
-        let card = $(event.relatedTarget); // Button that triggered the modal
-        let post_id = card.data('post_id');
-
-        $.post(`/api/post/${post_id}`, data => {
-
-            let post = data.post;
-            console.log(post);
-
-            $('#details-title').text(post.title);
-            $('#details-intro').text(post.intro);
-            $('#details-description').text(post.description);
-
-            $('#details-images').text('');
-            post.images.forEach(image => {
-                $('#details-images').append(`<img src=${image}>`)
-            });
-
-        });
-    })
-        .on('shown.bs.modal', function () {
-            $('#detailModal').scrollTop(0);
-        });
-</script>
+<script src="/static/js/modal.js"></script>

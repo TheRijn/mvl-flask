@@ -26,6 +26,7 @@ db.init_app(app)
 @app.route("/")
 def index():
     posts = Post.get_posts()
+    print(posts[0].title)
     return render_template("main/index.html", posts=posts)
 
 
