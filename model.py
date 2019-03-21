@@ -26,7 +26,7 @@ class Post(db.Model):
                 "title": self.title,
                 "intro": self.intro,
                 "description": self.description,
-                "images": self.images}
+                "images": [image.uri for image in self.images]}
 
     @staticmethod
     def get_posts():
@@ -42,6 +42,14 @@ class Image(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     uri = db.Column(db.String(80), nullable=False)
     post_id = db.Column(db.Integer, db.ForeignKey("posts.id"), nullable=False)
+
+
+class ImageBase64(db.Model):
+    __tablename__ = "image_store"
+    id = db.Column(db.Integer, primary_key=True)
+    filename = db.Column(db.String(30), unique=True, nullable=False)
+    mimetype = db.Column(db.String(127), nullable=False)
+    data = db.Column(db.Text, nullable=False)
 
 
 class Category(db.Model):

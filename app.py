@@ -1,21 +1,27 @@
 import os
 
-from flask import Flask, render_template, jsonify, abort
+from flask import Flask, render_template, jsonify, abort, send_file, request, redirect
 from sqlalchemy import func
+from base64 import standard_b64decode, standard_b64encode
+from io import BytesIO
 
-from model import Post, Category, db
-
-app = Flask(__name__)
+from model import db, Post, Category, ImageBase64
 
 # Check for environment variable
-if not os.getenv("DATABASE_URL"):
-    raise RuntimeError("DATABASE_URL is not set")
+env_vars = ["DATABASE_URL", "PASSWORD"]
+for env_var in env_vars:
+    if not os.getenv(env_var):
+        raise RuntimeError(f"{env_var} is not set")
+
+app = Flask(__name__)
 
 app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv("DATABASE_URL")
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['JSON_SORT_KEYS'] = False
 
+# Bind db to application
 db.init_app(app)
+
 
 @app.route("/")
 def index():
@@ -25,7 +31,6 @@ def index():
 
 @app.route('/<string:category_name>')
 def category(category_name):
-
     category_item = Category.query.filter(func.lower(Category.name) == category_name.replace('_', ' ')).first()
     if not category_item:
         return abort(404)
@@ -33,6 +38,11 @@ def category(category_name):
     posts = Post.get_posts_with_category(category_item.id)
 
     return render_template("main/index.html", posts=posts)
+
+
+@app.route('/contact')
+def contact():
+    return render_template("main/contact.html")
 
 
 @app.route("/api/post/<int:post_id>", methods=["POST"])
@@ -44,8 +54,47 @@ def get_post(post_id):
         return jsonify({"success": False})
 
 
-@app.route("/login", methods=["GET"])
-def login():
-    return render_template("adm/login.html")
+@app.route('/images/<string:filename>')
+def get_image(filename):
+    image_b64 = ImageBase64.query.filter(ImageBase64.filename == filename).first()
+    if not image_b64:
+        return abort(404)
+    image = standard_b64decode(image_b64.data)
+    return send_file(BytesIO(image), mimetype=image_b64.mimetype, attachment_filename=filename)
 
 
+@app.route('/adm/uploadfile', methods=['POST', 'GET'])
+def file_uploaded():
+    if request.method == 'POST':
+        if not request.form.get('password') == os.getenv('PASSWORD'):
+            abort(401)
+        # check if the post request has the file part
+        if 'file' not in request.files:
+            # flash('No file part')
+            return abort(400)
+            # return redirect(request.url)
+        file = request.files['file']
+        # if user does not select file, browser also
+        # submit an empty part without filename
+        if file.filename == '':
+            # flash('No selected file')
+            return redirect(request.url)
+
+        if file:
+            data = standard_b64encode(file.read()).decode()
+            print(file.filename, file.mimetype)
+            print(data)
+            database_object = ImageBase64(filename=file.filename, mimetype=file.mimetype, data=data)
+            db.session.add(database_object)
+            db.session.commit()
+        # if file and allowed_file(file.filename):
+        #     filename = secure_filename(file.filename)
+        #     file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+        #     return redirect(url_for('uploaded_file',
+        #                             filename=filename))
+    return render_template("adm/uploadfile.html")
+
+
+if __name__ == '__main__':
+    app.app_context().push()
+    db.create_all()

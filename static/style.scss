@@ -5,6 +5,15 @@
 $margin: 20px;
 $half-margin: $margin / 2;
 
+// Nav
+.nav-link, .navbar-brand {
+  font-family: 'Amatic SC', cursive;
+  font-size: 40px;
+}
+
+.navbar-brand {
+
+}
 
 // Overlay is hidden
 .card-img-overlay {
@@ -36,8 +45,13 @@ $half-margin: $margin / 2;
   }
 }
 
+// Contact page
+.social-icon {
+  margin: $half-margin;
+}
+
 body {
-  padding-top: 4.5rem;
+  padding-top: 6.5rem;
 }
 
 

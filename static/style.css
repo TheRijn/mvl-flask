@@ -1,6 +1,10 @@
 /*
  * Start of Custom CSS
  */
+.nav-link, .navbar-brand {
+  font-family: 'Amatic SC', cursive;
+  font-size: 40px; }
+
 .card-img-overlay {
   opacity: 0; }
 
@@ -17,8 +21,11 @@
       .card .card-img-overlay .card-title-bg .card-text {
         opacity: 1; }
 
+.social-icon {
+  margin: 10px; }
+
 body {
-  padding-top: 4.5rem; }
+  padding-top: 6.5rem; }
 
 footer {
   margin-top: 10px;
