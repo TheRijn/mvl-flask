@@ -21,6 +21,9 @@
       .card .card-img-overlay .card-title-bg .card-text {
         opacity: 1; }
 
+a .card, a .card:hover {
+  color: inherit; }
+
 .modal-body img {
   margin: 10px; }
 

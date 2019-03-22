@@ -45,6 +45,12 @@ $half-margin: $margin / 2;
   }
 }
 
+a {
+  .card, .card:hover {
+    color: inherit;
+  }
+}
+
 // Modal
 
 .modal-body {
