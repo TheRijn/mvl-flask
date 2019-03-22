@@ -1,6 +1,6 @@
 {% extends 'adm/layout.html' %}
 {% block title %}
-Upload File - mvl
+    Upload File - mvl
 {% endblock %}
 {% block main %}
     <main class="container">
@@ -12,13 +12,22 @@ Upload File - mvl
             </div>
             <div class="form-group">
                 <div class="custom-file">
-                    <input type="file" class="custom-file-input" id="files" name="files" multiple>
-                    <label class="custom-file-label" for="files">Choose files</label>
+                    <input type="file" class="custom-file-input" id="choose-file-upload"
+                           aria-describedby="choose-file-upload" name="files" multiple>
+                    <label class="custom-file-label" for="choose-file-upload">Choose files</label>
                 </div>
             </div>
             <div class="form-group">
                 <input class="btn btn-primary form-control" type=submit value=Upload>
             </div>
         </form>
+        <script>
+            $(".custom-file-input").on("change", function () {
+                let files = $(this).prop("files");
+                let names = $.map(files, val => val.name);
+                let good_names = names.join(', ');
+                $(this).siblings(".custom-file-label").addClass("selected").html(good_names);
+            });
+        </script>
     </main>
 {% endblock %}
