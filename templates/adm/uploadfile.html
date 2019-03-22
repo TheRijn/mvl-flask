@@ -3,6 +3,11 @@
     Upload File - mvl
 {% endblock %}
 {% block main %}
+    {% if get_flashed_messages() %}
+                <div class="alert alert-primary border text-center" role="alert">
+                    {{ get_flashed_messages() | join(" ") }}
+                </div>
+        {% endif %}
     <main class="container">
         <h1>Upload new Photo</h1>
         <form class="" method=post enctype=multipart/form-data>

@@ -1,6 +1,6 @@
 import os
 
-from flask import Flask, render_template, jsonify, abort, send_file, request, redirect
+from flask import Flask, render_template, jsonify, abort, send_file, request, redirect, flash
 from sqlalchemy import func
 from base64 import standard_b64decode, standard_b64encode
 from io import BytesIO
@@ -8,7 +8,7 @@ from io import BytesIO
 from model import db, Post, Category, ImageBase64
 
 # Check for environment variable
-env_vars = ["DATABASE_URL", "PASSWORD"]
+env_vars = ["DATABASE_URL", "PASSWORD", 'SECRET_KEY']
 for env_var in env_vars:
     if not os.getenv(env_var):
         raise RuntimeError(f"{env_var} is not set")
@@ -18,6 +18,7 @@ app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv("DATABASE_URL")
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['JSON_SORT_KEYS'] = False
+app.secret_key = os.getenv('SECRET_KEY')
 
 # Bind db to application
 db.init_app(app)
@@ -68,33 +69,23 @@ def get_image(filename):
 def file_uploaded():
     if request.method == 'POST':
         if not request.form.get('password') == os.getenv('PASSWORD'):
-            abort(401)
+            flash("Wrong Password")
+            return redirect("/adm/uploadfile")
         # check if the post request has the file part
         if 'files' not in request.files:
-            # flash('No file part')
-            return abort(400)
-            # return redirect(request.url)
+            return redirect("/adm/uploadfile")
         files = request.files.getlist('files')
         # if user does not select file, browser also
         # submit an empty part without filename
-        print(files)
         for file in files:
             if file.filename == '':
-                # flash('No selected file')
-                return redirect(request.url)
-
-            if file:
-                data = standard_b64encode(file.read()).decode()
-                print(file.filename, file.mimetype)
-                database_object = ImageBase64(filename=file.filename, mimetype=file.mimetype, data=data)
-                db.session.add(database_object)
+                flash("No files")
+                return redirect("/adm/uploadfile")
+            data = standard_b64encode(file.read()).decode()
+            database_object = ImageBase64(filename=file.filename, mimetype=file.mimetype, data=data)
+            db.session.add(database_object)
 
         db.session.commit()
-        # if file and allowed_file(file.filename):
-        #     filename = secure_filename(file.filename)
-        #     file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-        #     return redirect(url_for('uploaded_file',
-        #                             filename=filename))
     return render_template("adm/uploadfile.html")
 
 
