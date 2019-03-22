@@ -7,12 +7,11 @@
         <div class="row">
             {% for post in posts %}
                 <div class="col-lg-3 col-md-4 col-6">
-                    <a data-toggle="modal"
-                       data-target="#detailModal"
-                       data-post_id="{{ post.id }}"
-                    >
+                    <a data-toggle="modal" data-target="#detailModal" data-post_id="{{ post.id }}">
                         <div class="card border-light">
-                            <img class="card-img" src="{{ post.images[0].uri }}" alt="random image">
+                            <img class="card-img" src="{{ post.images[0].uri }}" alt="product image">
+
+                            {# Card image overlay (desktop only) #}
                             <div class="card-img-overlay d-none d-md-flex align-items-center justify-content-center">
                                 <div class="card-title-bg bg-white  w-100 d-flex align-items-center justify-content-center">
                                     <h5 class="card-text text-dark">{{ post.title|safe }}</h5>
