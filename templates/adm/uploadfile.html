@@ -1,6 +1,6 @@
 {% extends 'adm/layout.html' %}
 {% block title %}
-    Upload File - mvl
+    Upload File
 {% endblock %}
 {% block main %}
     {% if get_flashed_messages() %}
@@ -13,7 +13,7 @@
         <form class="" method=post enctype=multipart/form-data>
             <div class="form-group">
                 <label for=password>Password</label>
-                <input class="form-control" id=password type=password name=password>
+                <input class="form-control" id="password" type="password" name="password">
             </div>
             <div class="form-group">
                 <div class="custom-file">

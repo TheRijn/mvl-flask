@@ -8,7 +8,7 @@
 
     <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav">
-            {% set items = [("Product Design", 'product_design'), ("Grafisch Vormgeven", "grafisch_vormgeven"), ("Fotografie", "fotografie")] %}
+            {% set items = [("Nice Title", 'internal_title'),] %}
             {% for item in items %}
                 <li class="nav-item">
                     <a class="nav-link {% if item[1] == request.path[1:] %}active{% endif %}"
